@@ -341,8 +341,20 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arr = str.split('');
+  const brackets = '[](){}<>';
+  const stack = [];
+
+  for (let index = 0; index < arr.length; index += 1) {
+    const bracket = arr[index];
+    const bracketsIdx = brackets.indexOf(bracket);
+
+    if (bracketsIdx % 2 === 0) stack.push(bracketsIdx + 1);
+    else if (stack.pop() !== bracketsIdx) return false;
+  }
+
+  return stack.length < 1;
 }
 
 /**
@@ -381,8 +393,16 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const arr = [];
+  const sortedPathes = pathes.sort((a, b) => a.length - b.length);
+  const smallerPath = sortedPathes[0];
+  for (let i = 0; i < smallerPath.length; i += 1) {
+    const isAllMathed = pathes.every((path) => path[i] === smallerPath[i]);
+    if (isAllMathed) arr.push(smallerPath[i]);
+    else break;
+  }
+  return arr.join('').replace(/\w+$/, '');
 }
 
 /**
